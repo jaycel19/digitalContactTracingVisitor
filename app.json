@@ -8,7 +8,10 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+    "plugins": [
+        "./plugins/trust-local-certs.js"
+      ]   
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "io.expo.qr"
     },
     "web": {
       "favicon": "./assets/favicon.png"
