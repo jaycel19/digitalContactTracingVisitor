@@ -8,9 +8,9 @@ import { VisitorProvider } from './context/VisitorContextProvider';
 
 export default function App() {
   return (
-    //<RootStack />
-    <VisitorProvider>
-    <QrGenerate />
-    </VisitorProvider>
+    <RootStack />
+    // <VisitorProvider>
+    // <QrGenerate />
+    // </VisitorProvider>
   );
 }

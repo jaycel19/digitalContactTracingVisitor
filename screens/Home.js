@@ -1,23 +1,25 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { 
-    Alert,
-    Modal,
-    Button, 
     Text, 
     View, 
     SafeAreaView, 
-    TextInput, 
     StyleSheet, 
-    Pressable } from "react-native";
+    Pressable,
+    ScrollView,
+    KeyboardAvoidingView } from "react-native";
 import { AuthContext } from "./../context/AuthContextProvider";
 import { VisitorContext } from "../context/VisitorContextProvider";
-import CusTextInput from "./../components/CusTextInput";
-import QrGenerate from "./QrGenerate";
+import CustomTextInput from "../components/CustomTextInput";
+
 
 const Home = ({route, navigation}) => {
-    const [isLog, setIsLog] = useContext(AuthContext);
-    const {fullName, setFullName, address, setAddress, contact, setContact} = useContext(VisitorContext);
-    const [isSubmit, setIsSubmit] = useState(false);
+    const [ isLog ] = useContext(AuthContext);
+    const { fullName, 
+            setFullName, 
+            address, 
+            setAddress, 
+            contact, 
+            setContact } = useContext(VisitorContext);
 
     const handleClickLog = () =>{
         navigation.navigate("Login");
@@ -27,7 +29,8 @@ const Home = ({route, navigation}) => {
     }
     const submitHandle = () => {
         if(fullName === "" || address === "" || contact === ""){
-            alert("empty")
+            alert("Error: Empty fields! Please fill out all the fields");
+            console.log(fullName + address + contact);
         }else{
             if(contact.length < 11 && contact.length !== 0){
                 alert("Number too short");
@@ -42,140 +45,99 @@ const Home = ({route, navigation}) => {
     }
     return(
         <SafeAreaView>
-            <Text style={styles.h1Styles} >DIGITAL CONTACT TRACING</Text>
-            <Text style={styles.h2Styles} >VISITOR</Text>
-            {isLog ?
-                (<View><View style={styles.inputStyles}>
-                    <View style={styles.textInput}>
-                        <View style={styles.inputContainer}>
-                            <TextInput
-                            style={styles.input}
-                            onChangeText={newFullname => setFullName(newFullname)}
-                            value={fullName}
-                            placeholder="Full Name:"
-                            keyboardType="default"
-                            />
+            <KeyboardAvoidingView>
+                <ScrollView>
+                    <Text style={styles.h1Styles} >DIGITAL CONTACT TRACING</Text>
+                    <Text style={styles.h2Styles} >VISITOR</Text>
+                    {isLog ?
+                        (<View><View style={styles.inputStyles}>
+                            <View style={styles.textInput}>
+                                <CustomTextInput 
+                                    type="default"
+                                    value={fullName}
+                                    placeholder="Full Name"
+                                    setValue={setFullName}
+                                />
+                            </View>
+                            <View style={styles.textInput}>
+                                <CustomTextInput 
+                                    type="default"
+                                    value={address}
+                                    placeholder="Address"
+                                    setValue={setAddress}
+                                />
+                            </View>
+                            <View style={styles.textInput}>
+                                <CustomTextInput 
+                                    type="number-pad"
+                                    value={contact}
+                                    placeholder="Contact"
+                                    setValue={setContact}
+                                />
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.textInput}>
-                        <View style={styles.inputContainer}>
-                            <TextInput
-                            style={styles.input}
-                            onChangeText={newAddress => setAddress(newAddress)}
-                            value={address}
-                            placeholder="Address:"
-                            keyboardType="default"
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.textInput}>
-                        <View style={styles.inputContainer}>
-                            <TextInput
-                            style={styles.input}
-                            onChangeText={newContact => setContact(newContact)}
-                            value={contact}
-                            placeholder="Contact:"
-                            keyboardType="number-pad"
-                            />
-                        </View>
-                    </View>
-                </View>
 
-                <View style={styles.button}>
-                    <Pressable style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingVertical: 12,
-                        paddingHorizontal: 32,
-                        borderRadius: 4,
-                        elevation: 3,
-                        backgroundColor: 'white',
-                    }} onPress={submitHandle}>
-                        <Text style={{
-                            fontSize: 16,
-                            lineHeight: 21,
-                            fontWeight: 'bold',
-                            letterSpacing: 0.25,
-                            color: 'blue',
-                        }}>Submit</Text>
-                    </Pressable>
-                </View>
-                
-                <View style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={isSubmit}
-                        onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                        setModalVisible(!isSubmit);
-                        }}>
-                        <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <View style={styles.modalText}>
-                            <QrGenerate 
-                                fullName={fullName}
-                                address={address}
-                                contact={contact}
-                            />
-                            </View>
-                            <View style={styles.buttonView}>
-                            <Pressable
-                            style={[styles.buttonModal, styles.buttonClose]}
-                            onPress={() => setIsSubmit(!isSubmit)}>
-                            <Text style={styles.textStyle}>OK</Text>
+                        <View style={styles.button}>
+                            <Pressable style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 12,
+                                paddingHorizontal: 32,
+                                borderRadius: 4,
+                                elevation: 3,
+                                backgroundColor: 'white',
+                            }} onPress={submitHandle}>
+                                <Text style={{
+                                    fontSize: 16,
+                                    lineHeight: 21,
+                                    fontWeight: 'bold',
+                                    letterSpacing: 0.25,
+                                    color: 'blue',
+                                }}>Submit</Text>
                             </Pressable>
-                            <Pressable
-                            style={[styles.buttonModal, styles.buttonClose]}
-                            onPress={() => setIsSubmit(!isSubmit)}>
-                            <Text style={styles.textStyle}>CANCEL</Text>
-                            </Pressable>
-                            </View>
                         </View>
                         </View>
-                    </Modal>
-                </View>
-                
-                </View>
-                ) : (
-                <View style={styles.btn}>
-                    <Pressable style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingVertical: 12,
-                        paddingHorizontal: 32,
-                        borderRadius: 4,
-                        elevation: 3,
-                        backgroundColor: 'white',
-                    }} onPress={handleClickLog}>
-                        <Text style={{
-                            fontSize: 16,
-                            lineHeight: 21,
-                            fontWeight: 'bold',
-                            letterSpacing: 0.25,
-                            color: 'blue',
-                        }}>Login</Text>
-                    </Pressable>
-                    <Pressable style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        paddingVertical: 12,
-                        paddingHorizontal: 32,
-                        borderRadius: 4,
-                        elevation: 3,
-                        backgroundColor: 'white',
-                        marginTop: 10,
-                    }} onPress={handleClickReg}>
-                        <Text style={{
-                            fontSize: 16,
-                            lineHeight: 21,
-                            fontWeight: 'bold',
-                            letterSpacing: 0.25,
-                            color: 'blue',
-                        }}>Register</Text>
-                    </Pressable>
-                </View>)
-            }
+                        ) : (
+                        <View style={styles.btn}>
+                            <Pressable style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 12,
+                                paddingHorizontal: 32,
+                                borderRadius: 4,
+                                elevation: 3,
+                                backgroundColor: 'white',
+                            }} onPress={handleClickLog}>
+                                <Text style={{
+                                    fontSize: 16,
+                                    lineHeight: 21,
+                                    fontWeight: 'bold',
+                                    letterSpacing: 0.25,
+                                    color: 'blue',
+                                }}>Login</Text>
+                            </Pressable>
+                            <Pressable style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 12,
+                                paddingHorizontal: 32,
+                                borderRadius: 4,
+                                elevation: 3,
+                                backgroundColor: 'white',
+                                marginTop: 10,
+                            }} onPress={handleClickReg}>
+                                <Text style={{
+                                    fontSize: 16,
+                                    lineHeight: 21,
+                                    fontWeight: 'bold',
+                                    letterSpacing: 0.25,
+                                    color: 'blue',
+                                }}>Register</Text>
+                            </Pressable>
+                        </View>)
+                    }
+                </ScrollView>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
@@ -204,7 +166,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingBottom: 20,
         backgroundColor: "white"
-
     },
     textInput: {
         width: "100%",
@@ -214,7 +175,8 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: "row",
         marginLeft: "auto",
-        marginRight: 5
+        marginRight: 5,
+        marginBottom: 20
     },
     btn: {
         margin: 20,
@@ -234,53 +196,6 @@ const styles = StyleSheet.create({
         maxWidth: 400,
         display: 'flex',
         justifyContent: 'center'
-      },
-      centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-      },
-      modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      },
-      buttonModal: {
-        borderRadius: 10,
-        padding: 10,
-        elevation: 2,
-        margin: 10
-      },
-      buttonOpen: {
-        backgroundColor: '#F194FF',
-      },
-      buttonClose: {
-        backgroundColor: 'white',
-      },
-      textStyle: {
-        color: 'blue',
-        fontWeight: 'bold',
-        textAlign: 'center',
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-      },
-      buttonView: {
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "flex-end",
       }
 })
 

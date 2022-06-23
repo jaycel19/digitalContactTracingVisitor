@@ -1,16 +1,14 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
 
-const CusTextInput = ({ placeholder, type }) => {
-  const [number, onChangeNumber] = React.useState(null);
-
+const CustomTextInput = ({ placeholder, type, value, setValue }) => {
   return (
     <SafeAreaView>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
+          onChangeText={newValue => setValue(newValue)}
+          value={value}
           placeholder={placeholder}
           keyboardType={type}
         />
@@ -38,4 +36,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CusTextInput;
+export default CustomTextInput;
