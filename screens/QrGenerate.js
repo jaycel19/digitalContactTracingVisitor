@@ -13,6 +13,7 @@ const QrGenerate = ({navigation}) => {
     }
 
     const handleOkBtn = () => {
+        console.log(contact);
         setFullName("");
         setAddress("");
         setContact("");
@@ -44,7 +45,7 @@ const QrGenerate = ({navigation}) => {
                 }}>
                     <Text style={styles.textMarg}>Name: Jhun Chester lalongisip{fullName}</Text>
                     <Text style={styles.textMarg}>Address: Kale hills{address}</Text>
-                    <Text style={styles.textMarg}>Contact #: 09263488299{contact}</Text>
+                    <Text style={styles.textMarg}>Contact #:{contact}</Text>
                     <View style={{ flexDirection: "row", justifyContent: "center" }}>
                         <CustomButton 
                             onPress={handleOkBtn}

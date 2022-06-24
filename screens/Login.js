@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "./../context/AuthContextProvider";
 
 const Login = ({navigation}) =>{
-    const LOGINURL = "https://guarded-atoll-13084.herokuapp.com/visitor/login";
+    const LOGINURL = "https://whispering-crag-31764.herokuapp.com/visitor/login";
     const [userInfo, setUserInfo] = useState({
         email: "",
         password: ""

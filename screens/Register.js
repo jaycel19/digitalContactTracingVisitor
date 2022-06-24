@@ -13,7 +13,7 @@ const Register = ({navigation}) =>{
     const [randomCaptcha, setRandomCaptcha] = useState(`${firstDigit}${secondDigit}${thirdDigit}${fourthDigit}`);
     const [captchaValue, setCaptchaValue] = useState();
 
-    const REGISTERURL = "https://guarded-atoll-13084.herokuapp.com/visitor/signup";
+    const REGISTERURL = "https://whispering-crag-31764.herokuapp.com/visitor/signup";
 
     const [userInfo, setUserInfo] = useState({
         email: "",
